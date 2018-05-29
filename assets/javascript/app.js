@@ -1,15 +1,3 @@
-// pseudocode
-/*Things that need to be done:
-Create buttons that call on the GIPHY API
-On click function for each gif that is appended to change 'still' to 'live'
-    Appends the 'rating' for every gif
-    empties the current div with gifs
-Create search form
-    search form creates a new button at the top
-    remember 'stop event'
-*/
-// key: fLBh9znkHW9nzigSMaNWxa5ntlY3P26u
-
 window.onload = function() {
 
 var buttonNames = ['cat', 'dog', 'sheep', 'bird', 'cow', 'fish'];
@@ -50,7 +38,8 @@ $("#add-more").on('click', function() {
 var clickedButton;
 $('body').on('click', '.button', function() {
     $("#gifs").empty();
-    var clickedButton = $(this).text()
+    var clickedButton = $(this).text();
+    var moreButton = $("<button id='more-button' class='btn btn-primary'>")
     queryURL = 'https://api.giphy.com/v1/gifs/search?q=' + clickedButton + '&api_key=fLBh9znkHW9nzigSMaNWxa5ntlY3P26u&limit=10'
     console.log(queryURL);   
         $.ajax({
@@ -59,11 +48,13 @@ $('body').on('click', '.button', function() {
             })
             .then(function(response) {
                 for (i = 0; i < response.data.length; i++) {
-                    $("#gifs").append('<img class="aGif" id="gif-' + i + '" data-state="animate">')
-                    $("#gif-" + i).attr('src', response.data[i].images.fixed_height.url)
-                    $("#gif-" + i).attr('data-still', response.data[i].images.fixed_height_still.url)
-                    $("#gif-" + i).attr('data-animate', response.data[i].images.fixed_height.url)
-                    $('#gifs').append('Rating: ' + response.data[i].rating);
+                    $("#gifs").append('<div class="card" id="'+i+'">')
+                    $("#"+i+"").append('<img class="aGif card-img-top" id="gif-' + i + '" data-state="animate">')
+                    $("#gif-" + i).attr('src', response.data[i].images.fixed_height.url);
+                    $("#gif-" + i).attr('data-still', response.data[i].images.fixed_height_still.url);
+                    $("#gif-" + i).attr('data-animate', response.data[i].images.fixed_height.url);
+                    $('#'+i+'').append('<div class="card-body" id="rating-' + i +'">');
+                    $('#rating-'+i+'').append('<div class="card-text"> Rating: ' + response.data[i].rating);
                 }   
             });  
 })
@@ -71,7 +62,7 @@ $('body').on('click', '.button', function() {
 $('#add-button').on('click', function(event) {
     event.preventDefault();
     var userInput = $("#gif-input").val().trim();
-    buttonNames.push(userInput)
+    buttonNames.push(userInput);
     createButtons();
 
 })
