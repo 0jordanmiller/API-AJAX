@@ -14,27 +14,6 @@ for (i = 0; i < buttonNames.length; i++) {
     $("#buttons").append($("<button class='btn btn-primary button'>").text(buttonNames[i]));
 }
 
-$("#add-more").on('click', function() {
-    event.preventDefault();
-    var imageAmount = 10;
-    imageAmount = imageAmount + 10;
-    queryURL = 'https://api.giphy.com/v1/gifs/search?q=' + clickedButton + '&api_key=fLBh9znkHW9nzigSMaNWxa5ntlY3P26u&limit=' + imageAmount
-    console.log(queryURL);   
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-            })
-            .then(function(response) {
-                for (i = 0; i < response.data.length; i++) {
-                    $("#gifs").append('<img class="aGif" id="gif-' + i + '" data-state="animate">')
-                    $("#gif-" + i).attr('src', response.data[i].images.fixed_height.url)
-                    $("#gif-" + i).attr('data-still', response.data[i].images.fixed_height_still.url)
-                    $("#gif-" + i).attr('data-animate', response.data[i].images.fixed_height.url)
-                    $('#gifs').append('Rating: ' + response.data[i].rating);
-                }   
-            });  
-})
-
 var clickedButton;
 $('body').on('click', '.button', function() {
     $("#gifs").empty();
@@ -48,8 +27,8 @@ $('body').on('click', '.button', function() {
             })
             .then(function(response) {
                 for (i = 0; i < response.data.length; i++) {
-                    $("#gifs").append('<div class="card" id="'+i+'">')
-                    $("#"+i+"").append('<img class="aGif card-img-top" id="gif-' + i + '" data-state="animate">')
+                    $("#gifs").append('<div class="card " style="width: 10rem; float: left;" id="'+i+'">')
+                    $("#"+i+"").append('<img class="aGif card-img-top" style="width: 10rem;" id="gif-' + i + '" data-state="animate">')
                     $("#gif-" + i).attr('src', response.data[i].images.fixed_height.url);
                     $("#gif-" + i).attr('data-still', response.data[i].images.fixed_height_still.url);
                     $("#gif-" + i).attr('data-animate', response.data[i].images.fixed_height.url);
